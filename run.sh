@@ -5,7 +5,7 @@ NVM_SIZE=2048
 MAX_SIZE=$(($RAM_SIZE+$NVM_SIZE))
 
 qemu-system-x86_64 \
-    -hda base.qcow2 \
+    -hda image.qcow2 \
     -machine accel=kvm,nvdimm \
     -cpu host -smp 10 \
     -m $RAM_SIZE,slots=3,maxmem=${MAX_SIZE}m \
