@@ -9,7 +9,7 @@ qemu-system-x86_64 \
     -machine accel=kvm,nvdimm \
     -cpu host -smp 10 \
     -m $RAM_SIZE,slots=3,maxmem=${MAX_SIZE}m \
-    -object memory-backend-file,id=mem1,mem-path=nvdimm_backend,size=${NVM_SIZE}m,pmem=on,align=2M,mem-path=/dev/dax0.0 \
+    -object memory-backend-file,id=mem1,mem-path=nvdimm_backend,size=${NVM_SIZE}m,pmem=on,align=2M \
     -device nvdimm,id=nvdimm1,memdev=mem1 \
     -net user,hostfwd=tcp:127.0.0.1:5000-:22 \
     -net nic \

@@ -3,8 +3,7 @@
 
 
 int main() {
-    PMEMobjpool* pool = pmemobj_create("/dev/pmem0", "layout", PMEMOBJ_MIN_POOL, 0666);
-    //PMEMobjpool* pool = pmemobj_open("/dev/pmem0", "layout");
+    PMEMobjpool* pool = pmemobj_create("/pmem/first_pool", "layout", PMEMOBJ_MIN_POOL, 0666);
     if (pool == nullptr) {
         return 1;
     }
