@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.5.1)
 
+project(pmem)
+
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(PMEMOBJ REQUIRED libpmemobj)
 pkg_check_modules(PMEMBLK REQUIRED libpmemblk)
