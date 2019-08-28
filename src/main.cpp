@@ -6,22 +6,33 @@ struct RootObject {
     char data[20];
 };
 
+POBJ_LAYOUT_BEGIN(store);
+    POBJ_LAYOUT_ROOT(store, RootObject);
+POBJ_LAYOUT_END(store);
+
 int main() {
-    PMEMobjpool* pool = pmemobj_create("/pmem/first_pool", "layout", PMEMOBJ_MIN_POOL, 0666);
+    PMEMobjpool* pool = pmemobj_create("/pmem/first_pool", POBJ_LAYOUT_NAME(store), PMEMOBJ_MIN_POOL, 0666);
     if (pool == nullptr) {
-        pool = pmemobj_open("/pmem/first_pool", "layout");
+        pool = pmemobj_open("/pmem/first_pool", POBJ_LAYOUT_NAME(store));
     }
 
-    RootObject* root = (RootObject*)pmemobj_direct(pmemobj_root(pool, sizeof(RootObject)));
+    TOID(RootObject) root = POBJ_ROOT(pool, RootObject);
 
-    if (strnlen(root->data, 12) == root->data_size) {
-        printf("%s\n", root->data);
+    if (strnlen(D_RW(root)->data, 12) == D_RW(root)->data_size) {
+        printf("%s\n", D_RW(root)->data);
     }
 
-    scanf("%10s", root->data);
-    root->data_size = strlen(root->data);
+    TX_BEGIN(pool)
+        TX_ADD(root);
+        if (scanf("%10s", D_RW(root)->data) != 1) {
+            pmemobj_tx_abort(1);
+        }
+        D_RW(root)->data_size = strlen(D_RW(root)->data);
+    TX_ONABORT
+        printf("onabort");
+    TX_END
 
-    pmemobj_persist(pool, root, sizeof(RootObject));
+    //pmemobj_persist(pool, D_RW(root), sizeof(RootObject));
 
     pmemobj_close(pool);
 }
