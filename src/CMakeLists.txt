@@ -11,6 +11,8 @@ pkg_check_modules(PMEM REQUIRED libpmem)
 pkg_check_modules(VMEM REQUIRED libvmem)
 pkg_check_modules(VMALLOC REQUIRED libvmmalloc)
 
+find_package(LIBPMEMOBJ++ REQUIRED)
+
 add_executable(main main.cpp)
 
 target_include_directories(
@@ -18,9 +20,11 @@ target_include_directories(
     PUBLIC
     ${PMEMOBJ_INCLUDE_DIRECTORIES} 
     ${PMEMBLK_INCLUDE_DIRECTORIES}
-    ${PMEMLOG_INCLUDE_DIRECTORIES} )
+    ${PMEMLOG_INCLUDE_DIRECTORIES}
+    ${LIBPMEMOBJ++_INCLUDE_DIRECTORIES})
 
 target_link_libraries(main
     ${PMEMOBJ_LIBRARIES}
     ${PMEMBLK_LIBRARIES}
-    ${PMEMLOG_LIBRARIES})
+    ${PMEMLOG_LIBRARIES}
+    ${LIBPMEMOBJ++_LIBRARIES})
