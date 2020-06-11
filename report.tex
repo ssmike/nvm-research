@@ -1,0 +1,185 @@
+\documentclass[pdftex,ptm,12pt,a4paper]{report}
+\renewcommand{\baselinestretch}{1.5}
+\setcounter{secnumdepth}{5}
+\usepackage[english, russian]{babel}
+
+% PDF search & cut'n'paste
+\usepackage{cmap}
+\usepackage[table,xcdraw]{xcolor}
+\renewcommand{\baselinestretch}{1.5}
+\usepackage{setspace}
+\usepackage{indentfirst}
+
+% Cyrillic support
+\usepackage{mathtext}
+\usepackage{amsmath}
+\usepackage[T1,T2A]{fontenc}
+\DeclareSymbolFont{T2Aletters}{T2A}{cmr}{m}{it}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+
+\usepackage[bottom=30mm,top=20mm,right=20mm,left=30mm,headsep=0cm,nofoot]{geometry}
+
+\usepackage{calc}
+\setlength{\footskip}{\paperheight
+  -(1in+\voffset+\topmargin+\headheight+\headsep+\textheight)
+  -0.75in}
+
+\usepackage{array}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+\makeatletter
+\renewcommand*{\ps@plain}{%
+  \let\@mkboth\@gobbletwo
+  \let\@oddhead\@empty
+  \def\@oddfoot{%
+    \reset@font
+    \hfil
+    \thepage
+    % \hfil % removed for aligning to the right
+  }%
+  \let\@evenhead\@empty
+  \let\@evenfoot\@oddfoot
+}
+\makeatother
+\pagestyle{plain}
+
+\usepackage[pdftex]{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[russian,english]{babel}
+    \addto{\captionsenglish}{\renewcommand{\bibname}{Литература}}
+    \addto\captionsenglish{\renewcommand{\figurename}{Рис.}}
+    \addto\captionsenglish{\renewcommand{\contentsname}{Содержание}}
+    \addto\captionsenglish{\renewcommand{\proofname}{Доказательство}}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{url}
+\usepackage{abstract}
+\usepackage{float}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\renewcommand*{\proofname}{Доказательство}
+\usepackage{indentfirst}
+\usepackage{color}
+\usepackage{natbib}
+\usepackage{bbm, dsfont}
+
+
+% Detect whether PDFLaTeX is in use
+\usepackage{ifpdf}
+
+% Fix links to floats
+\usepackage[all]{hypcap}
+
+\makeatletter
+\renewcommand{\@chapapp}{Часть}
+\makeatother
+
+% Theorem Styles
+\newtheorem{theorem}{Теорема}[chapter]
+\newtheorem{lemma}[theorem]{Лемма}
+\newtheorem{claim}[theorem]{Теорема}
+% Definition Styles
+\theoremstyle{definition}
+\newtheorem{definition}{Определение}[chapter]
+\newtheorem{example}{Пример}[chapter]
+% Rule for Title Page
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+\begin{document}
+
+\begin{titlepage}
+\newpage
+
+\begin{center}
+МИНИСТЕРСТВО ОБРАЗОВАНИЯ И НАУКИ РОССИЙСКОЙ ФЕДЕРАЦИИ \\
+\vspace{0.5cm}
+ГОСУДАРСТВЕННОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ \\*
+ВЫСШЕГО ПРОФЕССИОНАЛЬНОГО ОБРАЗОВАНИЯ\\*
+"МОСКОВСКИЙ ФИЗИКО-ТЕХНИЧЕСКИЙ ИНСТИТУТ \\*
+(ГОСУДАРСТВЕННЫЙ УНИВЕРСИТЕТ)" \\*
+\vspace{0.5cm}
+ФАКУЛЬТЕТ ИННОВАЦИЙ И ВЫСОКИХ ТЕХНОЛОГИЙ \\*
+КАФЕДРА АНАЛИЗА ДАННЫХ \\*
+\hrulefill
+\end{center}
+
+
+\vspace{3em}
+
+\begin{center}
+\Large Выпускная квалификационная работа по направлению 01.03.02 <<Прикладная математика и информатика>> \linebreak НА ТЕМУ:
+\end{center}
+
+\vspace{2.5em}
+
+\begin{center}
+\textsc{\large{\textbf{Алгоритмы консенсуса на энергонезависимой памяти произвольного доступа}}}
+\end{center}
+
+\vspace{6.5em}
+
+\begin{minipage}{.45\linewidth}
+\begin{flushleft}
+Студент \\ Научный руководитель к.ф-м.н \\ Зам. зав. кафедрой д.ф-м.н, проф.
+\end{flushleft}
+\end{minipage}
+\hfill
+\begin{minipage}{.45\linewidth}
+\begin{flushright}
+    Сурин М.С.\\ Бабенко А.В.\\Бунина Е.И.
+\end{flushright}
+\end{minipage}
+
+\vspace{\fill}
+
+\begin{center}
+МОСКВА, 2017
+\end{center}
+
+\end{titlepage}
+
+\tableofcontents
+\sloppy
+
+\setstretch{1.5}
+\parindent=1.25cm
+
+\chapter{Введение}
+\section{NVDIMM}
+Дизайн СУБД всегда был вынужден принимать во внимание принципиальную разницу между энергозависимыми устройствами хранения информации и энергонезависимыми.
+Разница проявляется как в латентности доступа, так и в особенностях предоставляемого интерфейса. Энергонезависимые устройства как правило предоставляют блочный интерфейс, т.е.
+позволяют оперировать только блоками из тысяч байт. В то время как современные DIMM дают возможность оперировать словами -- единицами байт.
+Но не так давно (2014-15гг) появились на рынке технологии под общим названием “NVDIMM”, занимающие некое промежуточное звено сохраняя данные при потере питания, предоставляя скорость доступа, сравнимую с DRAM и также давая возможность адресации отдельных байтов. 
+
+Большая часть продуктов на 2014г (например продукты Miron Technology) представляют из себя модуль DRAM служащий кешом для модуля энергонезависимой памяти (как правило NAND FLASH)
+и автономным источником питания. Но тогда же были аннонсированы, а позже и появились на рынке устройства без подобного разделения -- к примеру Intel Optane NVDIMM \cite{peng2019system}.
+
+Порядки времён доступа к промышленным устройствам:
+\begin{center}
+\begin{tabular} {|l| c c c|}
+\hline
+    & SSD & NVDIMM & DIMM \\
+    \hline
+чтение & 200us & 120ns & 80ns \\
+запись & 2ms & 750ns & 80ns \\
+\hline
+\end{tabular}
+\end{center}
+
+Такая небольшая разница между быстрой оперативной памятью и медленной энергонезависимой даёт возможность пересмотреть традиционные подходы к дизайну и архитектуре СУБД в перспективе давая возможность добиться большей производительности.
+
+\section{Обзор литературы}
+
+\chapter{Цель работы}
+
+
+\chapter{Заключение}
+
+\bibliography{report}
+\bibliographystyle{plain}
+
+
+\end{document}

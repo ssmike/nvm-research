@@ -8,8 +8,6 @@ pkg_check_modules(PMEMBLK REQUIRED libpmemblk)
 pkg_check_modules(PMEMLOG REQUIRED libpmemlog)
 pkg_check_modules(PMEMPOOL REQUIRED libpmempool)
 pkg_check_modules(PMEM REQUIRED libpmem)
-pkg_check_modules(VMEM REQUIRED libvmem)
-pkg_check_modules(VMALLOC REQUIRED libvmmalloc)
 
 find_package(LIBPMEMOBJ++ REQUIRED)
 
